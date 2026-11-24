@@ -20,9 +20,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-            git zip unzip openjdk-17-jdk autoconf libtool pkg-config \
+            git zip unzip openjdk-17-jdk autoconf libtool libltdl-dev pkg-config \
             zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 \
-            cmake libffi-dev libssl-dev autoconf automake
+            cmake libffi-dev libssl-dev autoconf automake patch lld python3-dev
 
       - name: Install Buildozer and Cython
         run: |
@@ -31,10 +31,11 @@ jobs:
 
       - name: Build APK with Buildozer
         run: |
-          buildozer android debug
+          yes | buildozer -v android debug
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: avm-plotter-apk
           path: bin/*.apk
+          
